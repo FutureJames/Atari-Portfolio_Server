@@ -1,0 +1,124 @@
+# 03 send (client -> Portfolio). Run after MKFIX: this changes C:\PT and A:\PT.
+# The header's time and date are rpfolio's fixed 0C 7A 21 32.
+timeout 3000
+sync
+
+echo new file, 10 bytes
+send 03 00 70 0C 7A 21 32 u32=10 "C:\PT\NEW.TXT" 00 pad=90
+recv all
+send fill=10
+recv all
+echo ... read it back: are time and date from the request?
+send 02 00 70 "C:\PT\NEW.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo existing file, overwrite with 05
+sync
+send 03 00 70 0C 7A 21 32 u32=10 "C:\PT\SMALL.TXT" 00 pad=90
+recv all
+send 05 00 70
+send fill=10
+recv all
+echo ... read it back: 10 bytes now?
+send 02 00 70 "C:\PT\SMALL.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo existing file, cancel with 00
+sync
+send 03 00 70 0C 7A 21 32 u32=10 "C:\PT\NOEXT" 00 pad=90
+recv all
+send 00 00 00
+echo ... unchanged?
+sync
+send 02 00 70 "C:\PT\NOEXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo zero-length file
+sync
+send 03 00 70 0C 7A 21 32 u32=0 "C:\PT\ZERO.TXT" 00 pad=90
+recv all
+recv all
+
+echo existing read-only file, overwrite
+sync
+send 03 00 70 0C 7A 21 32 u32=10 "C:\PT\RO.TXT" 00 pad=90
+recv all
+send 05 00 70
+send fill=10
+recv all
+
+echo existing hidden file
+sync
+send 03 00 70 0C 7A 21 32 u32=10 "C:\PT\HID.TXT" 00 pad=90
+recv all
+send 05 00 70
+send fill=10
+recv all
+
+echo folder name as the target
+sync
+send 03 00 70 0C 7A 21 32 u32=10 "C:\PT\SUB" 00 pad=90
+recv all
+timeout 1500
+send fill=10
+recv all
+timeout 3000
+
+echo missing folder
+sync
+send 03 00 70 0C 7A 21 32 u32=10 "C:\NOPE\X.TXT" 00 pad=90
+recv all
+timeout 1500
+send fill=10
+recv all
+timeout 3000
+
+
+echo invalid name
+sync
+send 03 00 70 0C 7A 21 32 u32=10 "C:\PT\A*B.TXT" 00 pad=90
+recv all
+timeout 1500
+send fill=10
+recv all
+timeout 3000
+
+echo long name
+sync
+send 03 00 70 0C 7A 21 32 u32=10 "C:\PT\LONGFILENAME.TEXT" 00 pad=90
+recv all
+send fill=10
+recv all
+
+echo lower case name
+sync
+send 03 00 70 0C 7A 21 32 u32=10 "C:\PT\lower.txt" 00 pad=90
+recv all
+send fill=10
+recv all
+
+echo two blocks, 28673 bytes, over the 28672-byte file (the A: card is small)
+sync
+send 03 00 70 0C 7A 21 32 u32=28673 "A:\PT\B28672.BIN" 00 pad=90
+recv all
+send 05 00 70
+send fill=28672
+send fill=1
+recv all
+echo ... read it back
+send 02 00 70 "A:\PT\B28672.BIN" 00 pad=82
+recv all
+recv show=16
+recv all
+send 20 00 03
+
+echo what is on C:\PT now?
+sync
+send 06 00 70 "C:\PT\*.*" 00 pad=82
+recv all

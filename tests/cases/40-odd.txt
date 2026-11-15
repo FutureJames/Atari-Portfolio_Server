@@ -1,0 +1,55 @@
+# Odd requests: unknown codes, 05/00 out of place, disk full, a command
+# instead of the finish block. Run after MKFIX. Some may wedge the ROM.
+timeout 2000
+sync
+
+echo 05 outside a send
+send 05 00 70
+recv all
+echo 00 outside a send
+sync
+send 00 00 00
+recv all
+echo 01
+sync
+send 01 00 70 "C:\PT\*.*" 00 pad=82
+recv all
+echo 07
+sync
+send 07 00 70 "C:\PT\*.*" 00 pad=82
+recv all
+echo 20 (reply code as a command)
+sync
+send 20 00 03
+recv all
+echo 21
+sync
+send 21 00 70
+recv all
+echo 40 (first new PortfolioServer code)
+sync
+send 40 00 70
+recv all
+echo FF
+sync
+send FF 00 70
+recv all
+
+echo disk full: 40000 bytes to C:
+sync
+send 03 00 70 0C 7A 21 32 u32=40000 "C:\PT\BIG.BIN" 00 pad=90
+recv all
+send fill=28672
+timeout 10000
+send fill=11328
+recv all
+timeout 3000
+echo ... alive? what is left?
+sync
+send 06 00 70 "C:\PT\*.*" 00 pad=82
+recv all
+
+echo a 1-byte 06 block: no buffer size field (last: it may change the block size)
+sync
+send 06
+recv all

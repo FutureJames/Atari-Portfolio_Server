@@ -1,0 +1,21 @@
+# Does a 02 request's own buffer size field set the block size? Run after a
+# fresh start of server mode. Uses A:\PT\SUB\IN.TXT (20 bytes). If the
+# field doesn't count, the second recv finds the ROM waiting for the finish
+# block and the run ends in "Communications Error": that is the answer too.
+timeout 3000
+sync
+
+echo 02 IN.TXT with 10 00: header, then 16 + 4 if the field counts
+send 02 10 00 "A:\PT\SUB\IN.TXT" 00 pad=82
+recv all
+recv all
+recv all
+send 20 00 03
+
+echo ... and with 00 70 afterwards
+sync
+send 02 00 70 "A:\PT\SUB\IN.TXT" 00 pad=82
+recv all
+recv all
+recv all
+send 20 00 03

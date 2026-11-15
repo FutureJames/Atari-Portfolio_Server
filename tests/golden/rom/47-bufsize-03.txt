@@ -1,0 +1,11 @@
+= timeout 3000 ms
+= sync ok
+# 03 with 10 00: reply bytes 1-2?
+> send 90: 03 10 00 0C 7A 21 32 14 00 00 00 41 3A 5C 50 54 5C 53 55 42 5C 55 50 2E 54 58 54 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |....z!2....A:\PT\SUB\UP.TXT...............................................................|
+  ok, checksum B6 echoed
+< recv 3 fnv=48C8545C: 21 10 00  |!..|
+  ok, checksum CC
+> send 20: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13  |....................|
+  ! line 10: timeout waiting for clock low (sending, byte 0)
+  ! line 11: timeout waiting for clock low (sending, byte -1)
+= 2 errors

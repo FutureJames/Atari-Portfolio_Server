@@ -1,0 +1,28 @@
+# Smoke test: list, receive a file, an unknown command, then recover.
+# Needs C:\TEST.TXT (any small file) on the Portfolio.
+timeout 3000
+sync
+
+echo 06 list C:\*.*
+send 06 00 70 "C:\*.*" 00 pad=82
+recv
+
+echo 02 receive C:\TEST.TXT: header, data, finish
+send 02 00 70 "C:\TEST.TXT" 00 pad=82
+recv
+recv
+send 20 00 03
+
+echo what an idle server sends
+peek 1
+
+echo 07 unknown command: is there a reply?
+send 07 00 70 pad=82
+timeout 2000
+recv
+
+echo recover and list again
+timeout 3000
+sync
+send 06 00 70 "C:\*.*" 00 pad=82
+recv

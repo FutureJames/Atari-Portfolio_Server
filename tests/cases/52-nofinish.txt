@@ -1,0 +1,19 @@
+# A list request where the client should send the finish block (20 00 03)
+# after a receive. Seen 2026-11-14: the ROM stops after the length bytes of
+# the 82-byte block and shows "Communications Error" (it expects 3 bytes).
+# Ends server mode. Run on its own.
+echo a list instead of the finish block after a receive
+timeout 3000
+sync
+send 02 00 70 "C:\PT\SMALL.TXT" 00 pad=82
+recv all
+recv all
+send 06 00 70 "C:\PT\*.*" 00 pad=82
+timeout 2000
+recv all
+timeout 3000
+echo ... alive?
+sync
+send 06 00 70 "C:\PT\*.*" 00 pad=82
+recv all
+

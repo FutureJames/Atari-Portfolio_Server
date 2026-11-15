@@ -1,0 +1,63 @@
+# PortfolioServer's own commands: 40 info, 41 long listing, 4F quit. Run after
+# MKFIX against PortfolioServer; the reference is tests/golden/portfolioserver/ (the ROM
+# ignores these). Ends the server (4F).
+#
+# Only patterns without folders: MKFIX can't set a folder's date, so a
+# listing with SUB in it would change with every MKFIX.
+timeout 3000
+sync
+
+echo 40 info
+send 40 00 70
+recv all
+
+echo 40 as a 1-byte block
+sync
+send 40
+recv all
+
+echo 41 C:\PT\*.TXT (hidden and system files included, with their bits)
+sync
+send 41 00 70 "C:\PT\*.TXT" 00 pad=82
+recv all
+
+echo 41 A:\PT\*.BIN (sizes around the block size)
+sync
+send 41 00 70 "A:\PT\*.BIN" 00 pad=82
+recv all
+
+echo 41 exact name, no extension
+sync
+send 41 00 70 "C:\PT\NOEXT" 00 pad=82
+recv all
+
+echo 41 no match
+sync
+send 41 00 70 "C:\PT\NOPE.*" 00 pad=82
+recv all
+
+echo 41 missing folder
+sync
+send 41 00 70 "C:\NOPE\*.*" 00 pad=82
+recv all
+
+echo 41 in a folder
+sync
+send 41 00 70 "C:\PT\SUB\*.*" 00 pad=82
+recv all
+
+echo 41 with buffer size 10 00 does not change the block size: 02 header still says 00 70
+sync
+send 41 10 00 "C:\PT\NOEXT" 00 pad=82
+recv all
+send 02 00 70 "C:\PT\SUB\IN.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo 4F quit: reply, then the server is gone
+sync
+send 4F 00 70
+recv all
+timeout 1500
+peek 1

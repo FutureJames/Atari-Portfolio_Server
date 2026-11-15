@@ -1,0 +1,79 @@
+# 06 list. Run after MKFIX. Read-only: changes nothing.
+timeout 3000
+sync
+
+echo C:\PT\*.* (which attributes are listed? is SUB listed?)
+send 06 00 70 "C:\PT\*.*" 00 pad=82
+recv all
+echo A:\PT\*.*
+send 06 00 70 "A:\PT\*.*" 00 pad=82
+recv all
+echo exact name
+send 06 00 70 "C:\PT\SMALL.TXT" 00 pad=82
+recv all
+echo exact name, hidden file
+send 06 00 70 "C:\PT\HID.TXT" 00 pad=82
+recv all
+echo no match
+send 06 00 70 "C:\PT\NOPE.TXT" 00 pad=82
+recv all
+echo folder name
+send 06 00 70 "C:\PT\SUB" 00 pad=82
+recv all
+echo folder name with trailing backslash
+send 06 00 70 "C:\PT\SUB\" 00 pad=82
+recv all
+echo inside a folder
+send 06 00 70 "C:\PT\SUB\*.*" 00 pad=82
+recv all
+echo NUL in an existing folder (PiPortfolioDaemon's folder check)
+send 06 00 70 "C:\PT\SUB\NUL" 00 pad=82
+recv all
+send 06 00 70 "C:\PT\NUL" 00 pad=82
+recv all
+send 06 00 70 "C:\NUL" 00 pad=82
+recv all
+send 06 00 70 "A:\PT\NUL" 00 pad=82
+recv all
+echo NUL in a missing folder
+send 06 00 70 "C:\NOPE\NUL" 00 pad=82
+recv all
+echo missing folder
+send 06 00 70 "C:\NOPE\*.*" 00 pad=82
+recv all
+echo drive D:
+send 06 00 70 "D:\*.*" 00 pad=82
+recv all
+echo no drive
+send 06 00 70 "*.*" 00 pad=82
+recv all
+echo no drive, root
+send 06 00 70 "\PT\*.*" 00 pad=82
+recv all
+echo lower case
+send 06 00 70 "c:\pt\*.*" 00 pad=82
+recv all
+echo empty pattern
+send 06 00 70 00 pad=82
+recv all
+echo drive only
+send 06 00 70 "C:" 00 pad=82
+recv all
+echo *.TXT
+send 06 00 70 "C:\PT\*.TXT" 00 pad=82
+recv all
+echo ????.TXT
+send 06 00 70 "C:\PT\????.TXT" 00 pad=82
+recv all
+echo *. (no extension)
+send 06 00 70 "C:\PT\*." 00 pad=82
+recv all
+echo wildcard in a folder part
+send 06 00 70 "C:\P*\*.*" 00 pad=82
+recv all
+echo 79 characters, no NUL
+send 06 00 70 "C:\PT\AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+recv all
+echo short block, no padding
+send 06 00 70 "C:\PT\*.*" 00
+recv all

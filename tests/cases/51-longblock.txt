@@ -1,0 +1,7 @@
+# A command block longer than the ROM's command buffer. Ends server mode
+# ("Communications Error" on the Portfolio). Run on its own.
+timeout 3000
+sync
+echo long block, 120 bytes
+send 06 00 70 "C:\PT\*.*" 00 pad=120
+recv all

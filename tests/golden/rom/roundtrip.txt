@@ -1,0 +1,195 @@
+
+## 0 bytes via C:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s0 C:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s0 -> C:\PT\RT.BIN
+exit 0
+$ rpfolio -f -r C:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: RT.BIN
+File size: 0 bytes.
+exit 0
+compare: identical
+
+## 1 bytes via C:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s1 C:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s1 -> C:\PT\RT.BIN
+File exists on Portfolio and is being overwritten.
+exit 0
+$ rpfolio -f -r C:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: RT.BIN
+File size: 1 bytes.
+exit 0
+compare: identical
+
+## 100 bytes via C:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s100 C:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s100 -> C:\PT\RT.BIN
+File exists on Portfolio and is being overwritten.
+exit 0
+$ rpfolio -f -r C:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: RT.BIN
+File size: 100 bytes.
+exit 0
+compare: identical
+
+## 10000 bytes via C:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s10000 C:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s10000 -> C:\PT\RT.BIN
+File exists on Portfolio and is being overwritten.
+exit 0
+$ rpfolio -f -r C:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: RT.BIN
+File size: 10000 bytes.
+exit 0
+compare: identical
+
+## 20000 bytes via C:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s20000 C:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s20000 -> C:\PT\RT.BIN
+File exists on Portfolio and is being overwritten.
+exit 0
+$ rpfolio -f -r C:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: RT.BIN
+File size: 20000 bytes.
+exit 0
+compare: identical
+
+## 28671 bytes via A:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s28671 A:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s28671 -> A:\PT\RT.BIN
+exit 0
+$ rpfolio -f -r A:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: RT.BIN
+File size: 28671 bytes.
+exit 0
+compare: identical
+
+## 28673 bytes via A:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s28673 A:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s28673 -> A:\PT\RT.BIN
+File exists on Portfolio and is being overwritten.
+Transmission consists of 2 blocks of payload.
+exit 0
+$ rpfolio -f -r A:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: RT.BIN
+File size: 28673 bytes.
+Transmission consists of 2 blocks of payload.
+exit 0
+compare: identical
+
+## 40000 bytes via A:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s40000 A:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s40000 -> A:\PT\RT.BIN
+File exists on Portfolio and is being overwritten.
+Transmission consists of 2 blocks of payload.
+exit 0
+$ rpfolio -f -r A:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: RT.BIN
+File size: 40000 bytes.
+Transmission consists of 2 blocks of payload.
+exit 0
+compare: identical
+
+## 57345 bytes via A:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s57345 A:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s57345 -> A:\PT\RT.BIN
+File exists on Portfolio and is being overwritten.
+Transmission consists of 3 blocks of payload.
+exit 0
+$ rpfolio -f -r A:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: RT.BIN
+File size: 57345 bytes.
+Transmission consists of 3 blocks of payload.
+exit 0
+compare: identical
+
+## upload over an existing file without -f
+$ rpfolio -t /tmp/pofo-roundtrip/src/s100 C:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s100 -> C:\PT\RT.BIN
+File exists on Portfolio! Use -f to force overwriting.
+exit 0
+
+## download over an existing local file without -f
+$ rpfolio -r C:\PT\SMALL.TXT /tmp/pofo-roundtrip/back/exists
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: SMALL.TXT
+File exists! Use -f to force overwriting.
+exit 1
+
+## download with a wildcard into a folder
+$ rpfolio -r A:\PT\*.BIN /tmp/pofo-roundtrip/dir
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 3: B28672.BIN
+File size: 28672 bytes.
+Transferring file 2 of 3: B28673.BIN
+File size: 28673 bytes.
+Transmission consists of 2 blocks of payload.
+Transferring file 3 of 3: RT.BIN
+File size: 57345 bytes.
+Transmission consists of 3 blocks of payload.
+exit 0
+B28672.BIN: 28672
+B28673.BIN: 28673
+RT.BIN: 57345
+
+## upload several files into a folder
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/one.bin /tmp/pofo-roundtrip/src/hundred.bin C:\PT\
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 2: /tmp/pofo-roundtrip/src/one.bin -> C:\PT\one.bin
+Transmitting file 2 of 2: /tmp/pofo-roundtrip/src/hundred.bin -> C:\PT\hundred.bin
+exit 0
+$ rpfolio -l C:\PT\*.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\*.BIN
+RT.BIN
+ONE.BIN
+HUNDRED.BIN
+exit 0
+
+## download of a missing file
+$ rpfolio -r C:\PT\NOPE.TXT /tmp/pofo-roundtrip/back/nope
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+File not found on Portfolio: C:\PT\NOPE.TXT
+exit 1
+
+## folder check, as PiPortfolioDaemon does it
+$ rpfolio -l C:\PT\NUL
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\NUL
+NUL
+exit 0
+$ rpfolio -l C:\NOPE\NUL
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\NOPE\NUL
+No files.
+exit 0
+
+## 28672 bytes via A:\PT\RT.BIN
+$ rpfolio -f -t /tmp/pofo-roundtrip/src/s28672 A:\PT\RT.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-roundtrip/src/s28672 -> A:\PT\RT.BIN
+File exists on Portfolio and is being overwritten.
+SeAcknowledge ERROR (received 5A instead of A5)
+nt 28623 of 28672 bytes.
+exit 1
+$ rpfolio -f -r A:\PT\RT.BIN /tmp/pofo-roundtrip/back/rt
+exit 124
+compare: DIFFERENT (none bytes back)

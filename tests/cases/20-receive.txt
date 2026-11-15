@@ -1,0 +1,104 @@
+# 02 receive (Portfolio -> client). Run after MKFIX. Changes nothing.
+# Each case: request, header, data blocks, finish (20 00 03) as rpfolio does.
+timeout 3000
+sync
+
+echo small file, 100 bytes
+send 02 00 70 "C:\PT\SMALL.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo zero-length file: header, no data blocks, finish
+sync
+send 02 00 70 "C:\PT\EMPTY.TXT" 00 pad=82
+recv all
+send 20 00 03
+
+echo exactly one block, 28672 bytes
+sync
+send 02 00 70 "A:\PT\B28672.BIN" 00 pad=82
+recv all
+recv show=16
+send 20 00 03
+
+echo one block and one byte, 28673 bytes
+sync
+send 02 00 70 "A:\PT\B28673.BIN" 00 pad=82
+recv all
+recv show=16
+recv all
+send 20 00 03
+
+echo read-only file
+sync
+send 02 00 70 "C:\PT\RO.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo hidden file
+sync
+send 02 00 70 "C:\PT\HID.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo system file
+sync
+send 02 00 70 "C:\PT\SYS.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo no archive bit
+sync
+send 02 00 70 "C:\PT\NOARC.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo in a folder
+sync
+send 02 00 70 "C:\PT\SUB\IN.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo lower case
+sync
+send 02 00 70 "c:\pt\small.txt" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo missing file: what is the reply, and then?
+sync
+send 02 00 70 "C:\PT\NOPE.TXT" 00 pad=82
+recv all
+timeout 1500
+recv all
+timeout 3000
+
+echo folder
+sync
+send 02 00 70 "C:\PT\SUB" 00 pad=82
+recv all
+timeout 1500
+recv all
+timeout 3000
+
+echo wildcard
+sync
+send 02 00 70 "C:\PT\S*.TXT" 00 pad=82
+recv all
+timeout 1500
+recv all
+timeout 3000
+send 20 00 03
+
+
+echo still alive?
+sync
+send 06 00 70 "C:\PT\*.*" 00 pad=82
+recv all

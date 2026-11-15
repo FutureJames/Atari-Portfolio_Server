@@ -1,0 +1,20 @@
+# a list instead of the finish block after a receive
+= timeout 3000 ms
+= sync ok, 3 other bytes first
+> send 82: 02 00 70 43 3A 5C 50 54 5C 53 4D 41 4C 4C 2E 54 58 54 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |..pC:\PT\SMALL.TXT................................................................|
+  ok, checksum BC echoed
+< recv 11 fnv=40DC3C4C: 20 00 70 0C 7A 21 32 0A 00 00 00  | .p.z!2....|
+  ok, checksum 82
+< recv 10 fnv=2F854072: 00 01 02 03 04 05 06 07 08 09  |..........|
+  ok, checksum C9
+> send 82: 06 00 70 43 3A 5C 50 54 5C 2A 2E 2A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |..pC:\PT\*.*......................................................................|
+  ! line 11: timeout waiting for clock low (sending, byte 0)
+= timeout 2000 ms
+  ! line 13: timeout waiting for clock low (sending, byte -1)
+= timeout 3000 ms
+# ... alive?
+  ! line 16: timeout waiting for clock low (receiving, byte -1)
+> send 82: 06 00 70 43 3A 5C 50 54 5C 2A 2E 2A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |..pC:\PT\*.*......................................................................|
+  ! line 17: timeout waiting for clock low (receiving, byte -1)
+  ! line 18: timeout waiting for clock low (sending, byte -1)
+= 5 errors

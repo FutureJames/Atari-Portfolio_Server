@@ -1,0 +1,68 @@
+= timeout 2000 ms
+= sync ok
+# 05 outside a send
+> send 3: 05 00 70  |..p|
+  ok, checksum 88 echoed
+  ! line 8: expected A5 (block start), got 5A
+# 00 outside a send
+= sync ok
+> send 3: 00 00 00  |...|
+  ok, checksum FD echoed
+  ! line 12: expected A5 (block start), got 5A
+# 01
+= sync ok
+> send 82: 01 00 70 43 3A 5C 50 54 5C 2A 2E 2A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |..pC:\PT\*.*......................................................................|
+  ok, checksum E2 echoed
+  ! line 16: expected A5 (block start), got 5A
+# 07
+= sync ok
+> send 82: 07 00 70 43 3A 5C 50 54 5C 2A 2E 2A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |..pC:\PT\*.*......................................................................|
+  ok, checksum DC echoed
+  ! line 20: expected A5 (block start), got 5A
+# 20 (reply code as a command)
+= sync ok
+> send 3: 20 00 03  | ..|
+  ok, checksum DA echoed
+  ! line 24: expected A5 (block start), got 5A
+# 21
+= sync ok
+> send 3: 21 00 70  |!.p|
+  ok, checksum 6C echoed
+  ! line 28: expected A5 (block start), got 5A
+# 40 (first new PortfolioServer code)
+= sync ok
+> send 3: 40 00 70  |@.p|
+  ok, checksum 4D echoed
+  ! line 32: expected A5 (block start), got 5A
+# FF
+= sync ok
+> send 3: FF 00 70  |..p|
+  ok, checksum 8E echoed
+  ! line 36: expected A5 (block start), got 5A
+# disk full: 40000 bytes to C:
+= sync ok
+> send 90: 03 00 70 0C 7A 21 32 40 9C 00 00 43 3A 5C 50 54 5C 42 49 47 2E 42 49 4E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |..p.z!2@...C:\PT\BIG.BIN..................................................................|
+  ok, checksum CC echoed
+< recv 3 fnv=58A15E1C: 21 00 70  |!.p|
+  ok, checksum 6C
+> send 28672: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 5B 5C 5D 5E 5F ...  |................................ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_...|
+  ok, checksum 90 echoed
+= timeout 10000 ms
+> send 11328: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 5B 5C 5D 5E 5F ...  |................................ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_...|
+  ok, checksum B4 echoed
+< recv 3 fnv=38D154E3: 10 D7 39  |..9|
+  ok, checksum DD
+= timeout 3000 ms
+# ... alive? what is left?
+= sync ok
+> send 82: 06 00 70 43 3A 5C 50 54 5C 2A 2E 2A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |..pC:\PT\*.*......................................................................|
+  ok, checksum DD echoed
+< recv 85 fnv=C0E3112A: 09 00 45 4D 50 54 59 2E 54 58 54 00 53 4D 41 4C 4C 2E 54 58 54 00 52 4F 2E 54 58 54 00 4C 4F 4E 47 46 49 4C 45 2E 54 45 58 00 4E 4F 41 52 43 2E 54 58 54 00 4E 4F 45 58 54 00 4E 45 57 2E 54 58 54 00 5A 45 52 4F 2E 54 58 54 00 4C 4F 57 45 52 2E 54 58 54 00  |..EMPTY.TXT.SMALL.TXT.RO.TXT.LONGFILE.TEX.NOARC.TXT.NOEXT.NEW.TXT.ZERO.TXT.LOWER.TXT.|
+  ok, checksum 94
+# a 1-byte 06 block: no buffer size field (last: it may change the block size)
+= sync ok
+> send 1: 06  |.|
+  ok, checksum F9 echoed
+< recv 85 fnv=C0E3112A: 09 00 45 4D 50 54 59 2E 54 58 54 00 53 4D 41 4C 4C 2E 54 58 54 00 52 4F 2E 54 58 54 00 4C 4F 4E 47 46 49 4C 45 2E 54 45 58 00 4E 4F 41 52 43 2E 54 58 54 00 4E 4F 45 58 54 00 4E 45 57 2E 54 58 54 00 5A 45 52 4F 2E 54 58 54 00 4C 4F 57 45 52 2E 54 58 54 00  |..EMPTY.TXT.SMALL.TXT.RO.TXT.LONGFILE.TEX.NOARC.TXT.NOEXT.NEW.TXT.ZERO.TXT.LOWER.TXT.|
+  ok, checksum 94
+= 8 errors

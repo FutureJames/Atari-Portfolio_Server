@@ -1,0 +1,8 @@
+SERVER.COM
+server.lst
+.DS_Store
+tools/pofoprobe/pofoprobe
+MKFIX.COM
+tests/results/
+# notes on development: to-do lists, plans and decisions (not published)
+local/

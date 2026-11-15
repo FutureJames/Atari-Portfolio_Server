@@ -1,0 +1,15 @@
+# Requests that make the ROM leave server mode. Run last, one at a time:
+# server mode has to be restarted by hand after each.
+#
+# Seen 2026-11-14: a 120-byte command block makes the ROM stop after the
+# length bytes and show "Communications Error" (its command buffer is
+# smaller); an 82-byte one and a 13-byte one are fine.
+timeout 3000
+sync
+
+echo 04: leaves server mode. Any reply first?
+send 04 00 70
+timeout 2000
+recv all
+echo ... is anything still sending?
+peek 1

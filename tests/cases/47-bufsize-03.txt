@@ -1,0 +1,11 @@
+# Does a 03 request's own buffer size field set the block size? Run after a
+# fresh start of server mode. The reply's bytes 1-2 give the answer; the
+# 20-byte data block then either fits (00 70) or ends server mode (10 00).
+timeout 3000
+sync
+
+echo 03 with 10 00: reply bytes 1-2?
+send 03 10 00 0C 7A 21 32 u32=20 "A:\PT\SUB\UP.TXT" 00 pad=90
+recv all
+send fill=20
+recv all

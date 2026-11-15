@@ -1,0 +1,41 @@
+# The request's buffer size field (offsets 1-2). Found 2026-11-14: after a
+# 06 request with 10 00, the ROM's 02 header said 10 00 and it sent the file
+# in 16-byte blocks, even though the 02 request said 00 70. This case works
+# out the rule. Run after a fresh start of server mode (the setting sticks
+# until then). Uses A:\PT\SUB\IN.TXT (20 bytes).
+#
+# Seen 2026-11-14: a later 06 with 00 70 does NOT set it back.
+timeout 3000
+sync
+
+echo baseline: 02 IN.TXT (20 bytes) with 00 70: one block
+send 02 00 70 "A:\PT\SUB\IN.TXT" 00 pad=82
+recv all
+recv all
+send 20 00 03
+
+echo 06 with 10 00
+sync
+send 06 10 00 "A:\PT\SUB\*.*" 00 pad=82
+recv all
+
+echo 02 IN.TXT with 00 70: two blocks (16 + 4) if 06 set it to 16
+sync
+send 02 00 70 "A:\PT\SUB\IN.TXT" 00 pad=82
+recv all
+recv all
+recv all
+send 20 00 03
+
+echo 06 with 00 70 again: does that set it back?
+sync
+send 06 00 70 "A:\PT\SUB\*.*" 00 pad=82
+recv all
+
+echo 02 IN.TXT with 00 70: still two blocks (it was not set back)
+sync
+send 02 00 70 "A:\PT\SUB\IN.TXT" 00 pad=82
+recv all
+recv all
+recv all
+send 20 00 03

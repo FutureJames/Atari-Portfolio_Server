@@ -1,0 +1,75 @@
+# PortfolioServer's file commands: 42 delete, 43 make folder, 44 remove folder,
+# 45 free space. Run after MKFIX against PortfolioServer; the reference is
+# tests/golden/portfolioserver/. Changes C:\PT and A:\PT (MKFIX rebuilds them).
+#
+# Free space only on A:: C:'s changes whenever SERVER.COM changes size.
+timeout 3000
+sync
+
+echo 45 free space on A:, A:\, D: (no such drive) and B: (refused)
+send 45 00 70 "A:" 00 pad=82
+recv all
+sync
+send 45 00 70 "A:\" 00 pad=82
+recv all
+sync
+send 45 00 70 "D:" 00 pad=82
+recv all
+sync
+send 45 00 70 "B:" 00 pad=82
+recv all
+
+echo 43 make folder, twice (exists: error 5), in a missing folder (error 3)
+sync
+send 43 00 70 "C:\PT\NEWDIR" 00 pad=82
+recv all
+sync
+send 43 00 70 "C:\PT\NEWDIR" 00 pad=82
+recv all
+sync
+send 43 00 70 "C:\NOPE\X" 00 pad=82
+recv all
+
+echo 44 remove folder, twice (gone: error 3), not empty (error 5)
+sync
+send 44 00 70 "C:\PT\NEWDIR" 00 pad=82
+recv all
+sync
+send 44 00 70 "C:\PT\NEWDIR" 00 pad=82
+recv all
+sync
+send 44 00 70 "C:\PT\SUB" 00 pad=82
+recv all
+
+echo 42 delete, twice (error 2), read-only (error 5), hidden (works), wildcard (error 2), B: (error 0F)
+sync
+send 42 00 70 "C:\PT\SMALL.TXT" 00 pad=82
+recv all
+sync
+send 42 00 70 "C:\PT\SMALL.TXT" 00 pad=82
+recv all
+sync
+send 42 00 70 "C:\PT\RO.TXT" 00 pad=82
+recv all
+sync
+send 42 00 70 "C:\PT\HID.TXT" 00 pad=82
+recv all
+sync
+send 42 00 70 "C:\PT\*.TXT" 00 pad=82
+recv all
+sync
+send 42 00 70 "B:\X.TXT" 00 pad=82
+recv all
+
+echo ... C:\PT\*.TXT now (SMALL and HID gone)
+sync
+send 41 00 70 "C:\PT\*.TXT" 00 pad=82
+recv all
+
+echo 42 on A:, then free space on A: again (28,672 bytes more)
+sync
+send 42 00 70 "A:\PT\B28672.BIN" 00 pad=82
+recv all
+sync
+send 45 00 70 "A:" 00 pad=82
+recv all

@@ -1,0 +1,10 @@
+= timeout 3000 ms
+= sync ok, 3 other bytes first
+# 04: leaves server mode. Any reply first?
+> send 3: 04 00 70  |..p|
+  ok, checksum 89 echoed
+= timeout 2000 ms
+  ! line 13: timeout waiting for clock low (sending, byte -1)
+# ... is anything still sending?
+= peek:  ! line 15: timeout waiting for clock low (receiving, byte 0)
+= 2 errors

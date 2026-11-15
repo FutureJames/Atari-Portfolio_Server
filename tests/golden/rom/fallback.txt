@@ -1,0 +1,117 @@
+## -i (info)
+$ rpfolio -i
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+No reply: the Portfolio is running its built-in server, not PortfolioServer.
+exit 3
+$ rpfolio -l C:\PT\*.TXT
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\*.TXT
+EMPTY.TXT
+SMALL.TXT
+RO.TXT
+NOARC.TXT
+exit 0
+
+## -x (long listing)
+$ rpfolio -x C:\PT\*.*
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching long directory listing for C:\PT\*.*
+No reply: the Portfolio is running its built-in server, not PortfolioServer.
+exit 3
+$ rpfolio -l C:\PT\*.TXT
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\*.TXT
+EMPTY.TXT
+SMALL.TXT
+RO.TXT
+NOARC.TXT
+exit 0
+
+## -s (free space), two drives
+$ rpfolio -s C: A:
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+No reply: the Portfolio is running its built-in server, not PortfolioServer.
+exit 3
+$ rpfolio -l C:\PT\*.TXT
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\*.TXT
+EMPTY.TXT
+SMALL.TXT
+RO.TXT
+NOARC.TXT
+exit 0
+
+## -e (delete): the ROM must not delete SMALL.TXT
+$ rpfolio -e C:\PT\SMALL.TXT
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+No reply: the Portfolio is running its built-in server, not PortfolioServer.
+exit 3
+$ rpfolio -l C:\PT\SMALL.TXT
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\SMALL.TXT
+SMALL.TXT
+exit 0
+
+## -e with several paths: stops at the first
+$ rpfolio -e C:\PT\SMALL.TXT C:\PT\NOEXT
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+No reply: the Portfolio is running its built-in server, not PortfolioServer.
+exit 3
+$ rpfolio -l C:\PT\*.TXT
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\*.TXT
+EMPTY.TXT
+SMALL.TXT
+RO.TXT
+NOARC.TXT
+exit 0
+
+## -m (make folder): the ROM must not make NEWDIR
+$ rpfolio -m C:\PT\NEWDIR
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+No reply: the Portfolio is running its built-in server, not PortfolioServer.
+exit 3
+$ rpfolio -l C:\PT\NEWDIR\NUL
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\NEWDIR\NUL
+No files.
+exit 0
+
+## -k (remove folder): the ROM must not remove SUB
+$ rpfolio -k C:\PT\SUB
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+No reply: the Portfolio is running its built-in server, not PortfolioServer.
+exit 3
+$ rpfolio -l C:\PT\SUB\NUL
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\SUB\NUL
+NUL
+exit 0
+
+## -q (quit): the ROM must keep serving
+$ rpfolio -q
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+No reply: the Portfolio is running its built-in server, not PortfolioServer.
+exit 3
+$ rpfolio -l C:\PT\*.TXT
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Fetching directory listing for C:\PT\*.TXT
+EMPTY.TXT
+SMALL.TXT
+RO.TXT
+NOARC.TXT
+exit 0
+
+## ordinary transfers through the patched rpfolio
+$ rpfolio -f -t /tmp/pofo-fallback/up C:\PT\FALLBACK.BIN
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transmitting file 1 of 1: /tmp/pofo-fallback/up -> C:\PT\FALLBACK.BIN
+exit 0
+$ rpfolio -f -r C:\PT\FALLBACK.BIN /tmp/pofo-fallback/down
+Transfolio 1.0 - (c) 2018 by Klaus Peichl
+Transferring file 1 of 1: FALLBACK.BIN
+File size: 3000 bytes.
+exit 0
+compare: identical
+
+fallback: 0 problem(s)
