@@ -134,4 +134,4 @@ raw protocol tool that made the recordings.
 ## License
 
 [MIT](LICENSE), except for the parts based on transfolio, which remain Klaus
-Peichl's work; see [LICENSE](LICENSE).
+Peichl's work; see [NOTICE](NOTICE).

@@ -1,0 +1,16 @@
+transfolio
+
+Parts of this project are based on transfolio, the Atari Portfolio file
+transfer program by Klaus Peichl, (c) 2018 Klaus Peichl
+(https://github.com/skudi/transfolio, described at
+https://www.pofowiki.de/doku.php?id=software:vorstellung:exchanges:transfolio):
+
+- patches/rpfolio-portfolioserver.patch is a change to transfolio.c;
+- the bit- and block-level code in tools/pofoprobe/pofoprobe.c follows
+  transfolio.c;
+- the description of the ROM server's protocol in docs/protocol.md draws on
+  Klaus Peichl's write-up.
+
+Those parts remain the work of Klaus Peichl; the MIT licence in LICENSE covers this
+project's own additions. Thanks to Klaus Peichl for transfolio, which made
+this project possible.
