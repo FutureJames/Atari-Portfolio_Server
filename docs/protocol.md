@@ -134,7 +134,7 @@ reply, so a client that uses it to end server mode still works.
 
 All recorded cases give byte-identical transcripts (`tests/probe.sh
 portfolioserver`), except where the ROM gives up and leaves server mode with
-"Communications Error". PortfolioServer logs "Transfer error 01" and goes back
+"Communications Error". PortfolioServer logs "Transfer error: too long (01)" and goes back
 to waiting for commands instead:
 
 - a command block longer than 90 bytes (case 51);
@@ -296,7 +296,13 @@ DOS.
 - After a checksum error or a failed send, wait 500 ms (`3004`) and go back
   to waiting for a command, as the TRG recommends.
 - The screen shows one short line per command (the Portfolio's screen is
-  40×8).
+  40×8), and for `02` failures, `03` and `42`–`45` a result line: a word,
+  then the reply's status byte in hex, e.g. ` -> OK (20)`, ` -> not found
+  (21)`, ` -> wildcard (10)`. For `42`–`45` failures the DOS error follows
+  the status: ` -> no path (10 03)`, ` -> access denied (10 05)`,
+  ` -> bad drive (10 0F)`. Transfer errors show as `Transfer error:
+  checksum (03)` / `too long (01)`, others as `Transfer error 04`. The log
+  is display only: the replies are unchanged.
 
 ## Memory
 
