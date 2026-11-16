@@ -183,7 +183,7 @@ The rpfolio side is `patches/rpfolio-portfolioserver.patch`:
 
 | Option | Command | Output |
 |--------|---------|--------|
-| `-i` | `40` | `PortfolioServer 0.4, block size 28672 bytes.` |
+| `-i` | `40` | `PortfolioServer 0.5, block size 28672 bytes.` |
 | `-x PATTERN` | `41` | one line per entry: `----a      100 2000-01-01 12:00:00 SMALL.TXT` (attributes `d` folder, `r` read-only, `h` hidden, `s` system, `a` archive) |
 | `-q` | `4F` | `PortfolioServer stopped.` |
 | `-e PATH...` | `42` | `Deleted C:\PT\SMALL.TXT` |

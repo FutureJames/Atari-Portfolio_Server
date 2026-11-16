@@ -43,7 +43,7 @@ ACK_1           equ     0D7h
 ACK_2           equ     39h
 
 VERSION_MAJOR   equ     0
-VERSION_MINOR   equ     4
+VERSION_MINOR   equ     5
 
 ; DOS DTA offsets
 DTA_ATTR        equ     15h
@@ -976,7 +976,7 @@ fail:
 ; ---------------------------------------------------------------------------
 ; Data
 ; ---------------------------------------------------------------------------
-msg_banner      db      'PortfolioServer 0.4 - Esc quits', 13, 10, '$'
+msg_banner      db      'PortfolioServer 0.5 - Esc quits', 13, 10, '$'
 msg_noport      db      'No parallel port module', 13, 10, '$'
 msg_nomem       db      'Not enough memory', 13, 10, '$'
 msg_bye         db      'Server stopped', 13, 10, '$'
