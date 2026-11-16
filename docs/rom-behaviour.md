@@ -1,6 +1,6 @@
 # ROM server behaviour, as recorded
 
-What the Portfolio's built-in server (Setup → File transfer → Server) actually
+This file contains a description of what the Portfolio's built-in server (Setup → File transfer → Server) actually
 does, from the transcripts in `tests/golden/rom/` (recorded 2026-11-14 on an
 HPC-004 with pofoprobe). This is the reference for PortfolioServer: where this
 file and [protocol.md](protocol.md) disagree, this file wins.

@@ -264,6 +264,11 @@ cmd_get:
 
 .header_only:
         mov     al, [hdr]
+        mov     dx, w_notfound
+        cmp     al, ST_NEW
+        je      .show
+        mov     dx, w_wildcard
+.show:
         call    show_status
         mov     dx, hdr
         mov     cx, 11
@@ -300,7 +305,7 @@ cmd_put:
         mov     [reply + 1], ax
         mov     byte [reply], ST_BAD
         call    has_wildcard
-        jc      .reply_only
+        jc      .wildcard
         mov     byte [reply], ST_NEW
         mov     dx, path
         xor     cx, cx                  ; attribute 0, as the ROM
@@ -405,6 +410,7 @@ cmd_put:
         int     21h
         call    close_file
         mov     byte [reply], ST_OK
+        mov     dx, w_ok
         jmp     .ack
 .failed:
         ; The ROM deletes the target by name when a put fails, even a
@@ -414,10 +420,14 @@ cmd_put:
         mov     ah, 41h
         int     21h
         mov     byte [reply], ST_BAD
+        mov     dx, w_failed
 .ack:
         mov     byte [reply + 1], ACK_1
         mov     byte [reply + 2], ACK_2
-.reply_only:
+        jmp     .reply_only
+.wildcard:
+        mov     dx, w_wildcard
+.reply_only:                            ; DX = the word for the log
         mov     al, [reply]
         call    show_status
         mov     dx, reply
@@ -556,8 +566,7 @@ path_command:
         mov     byte [buf], ST_BAD
         mov     [buf + 1], ax
 .reply:
-        mov     al, [buf]
-        call    show_status
+        call    show_buf_result
         mov     dx, buf
         mov     cx, 3
         call    send_block
@@ -610,8 +619,7 @@ cmd_free:
         mov     byte [buf], ST_BAD
         mov     word [buf + 1], 0Fh     ; "invalid drive"
 .reply:
-        mov     al, [buf]
-        call    show_status
+        call    show_buf_result
         mov     dx, buf
         mov     cx, 11
         call    send_block
@@ -824,24 +832,89 @@ show_path:
         call    print_asciiz
         jmp     print_crlf
 
-; Print " -> status" for the status byte in AL.
+; Print " -> word (XX)": DX = the word ('$' string), AL = the status byte.
+; The log only: the reply itself is sent separately, from memory.
 show_status:
-        push    ax
+        call    show_word
+        jmp     print_close
+
+; Print " -> word (XX" without the closing bracket.
+show_word:
+        mov     [st_code], al
+        push    dx
         mov     dx, msg_status
         call    print_str
-        pop     ax
-        call    print_hex8
-        jmp     print_crlf
+        pop     dx
+        call    print_str
+        mov     dx, msg_open
+        call    print_str
+        mov     al, [st_code]
+        jmp     print_hex8
 
-; Print "Transfer error n" for the transfer error code in DL.
+; Show the result of a 42-45 reply in buf: " -> OK (20)", or for a failure
+; the DOS error (buf + 1) as a word and both bytes, e.g.
+; " -> access denied (10 05)". An unlisted error shows as "failed".
+show_buf_result:
+        mov     al, [buf]
+        mov     dx, w_ok
+        cmp     al, ST_OK
+        je      show_status
+        mov     ah, [buf + 1]
+        mov     [dos_err], ah
+        mov     dx, w_failed
+        mov     si, dos_words
+.find:
+        lodsb                           ; error code, 0 ends the table
+        test    al, al
+        jz      .print
+        cmp     al, [dos_err]
+        lodsw                           ; its word (LODS keeps the flags)
+        jne     .find
+        mov     dx, ax
+.print:
+        mov     al, [buf]
+        call    show_word
+        mov     dl, ' '
+        mov     ah, 02h
+        int     21h
+        mov     al, [dos_err]
+        call    print_hex8
+        jmp     print_close
+
+; Print the transfer error code in DL: "Transfer error: checksum (03)" for
+; the ones a client can cause, "Transfer error 04" for the rest.
 show_error:
-        push    dx
+        mov     [st_code], dl
         mov     dx, msg_error
         call    print_str
-        pop     dx
-        mov     al, dl
+        mov     dx, w_toolong
+        cmp     byte [st_code], 1       ; block longer than the buffer
+        je      .named
+        mov     dx, w_checksum
+        cmp     byte [st_code], 3
+        je      .named
+        mov     dl, ' '
+        mov     ah, 02h
+        int     21h
+        mov     al, [st_code]
         call    print_hex8
         jmp     print_crlf
+.named:
+        push    dx
+        mov     dx, msg_colon
+        call    print_str
+        pop     dx
+        call    print_str
+        mov     dx, msg_open
+        call    print_str
+        mov     al, [st_code]
+        call    print_hex8
+        jmp     print_close
+
+; Print ")" and a new line.
+print_close:
+        mov     dx, msg_close
+        jmp     print_str
 
 ; Print the '$'-terminated string at DX.
 print_str:
@@ -919,7 +992,32 @@ msg_rmdir       db      'Remove folder $'
 msg_free        db      'Free space $'
 msg_status      db      ' -> $'
 msg_unknown     db      'Ignored $'
-msg_error       db      'Transfer error $'
+msg_error       db      'Transfer error$'
+msg_colon       db      ': $'
+msg_open        db      ' ($'
+msg_close       db      ')', 13, 10, '$'
+
+; Words for the log's status lines (the codes are printed after them)
+w_ok            db      'OK$'
+w_notfound      db      'not found$'
+w_wildcard      db      'wildcard$'
+w_failed        db      'failed$'
+w_nopath        db      'no path$'
+w_denied        db      'access denied$'
+w_baddrive      db      'bad drive$'
+w_toolong       db      'too long$'
+w_checksum      db      'checksum$'
+
+; DOS error -> word, for 42-45 failures. 0 ends the table.
+dos_words       db      02h
+                dw      w_notfound
+                db      03h
+                dw      w_nopath
+                db      05h
+                dw      w_denied
+                db      0Fh
+                dw      w_baddrive
+                db      0
 msg_gaveup      db      'No answer, gave up', 13, 10, '$'
 msg_stray       db      'New client: upload dropped', 13, 10, '$'
 msg_crlf        db      13, 10, '$'
@@ -945,6 +1043,8 @@ created         resb    1
 put_failed      resb    1               ; couldn't create: fail after block 1
 write_failed    resb    1               ; a write failed: fail at the end
 dos_fn          resb    1               ; 41h, 39h or 3Ah for 42-44
+st_code         resb    1               ; code being logged
+dos_err         resb    1               ; DOS error being logged
                 alignb  2
 free_clusters   resw    1
 total_clusters  resw    1
